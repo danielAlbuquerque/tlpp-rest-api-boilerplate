@@ -1,0 +1,44 @@
+#include 'tlpp-core.th'
+#include 'tlpp-rest.th'
+
+Namespace ErpServ.Api.Controllers
+
+Using Namespace ErpServ.Api.Services
+
+Class CategoriesController From BaseController
+    Private Data _service
+
+    Public Method New() Constructor
+
+    @Get("/api/v1/categories")
+    Public Method Get()
+
+    @Post("/api/v1/categories")
+    Public Method Post()
+EndClass
+
+Method New() Class CategoriesController
+    _Super:New()
+    Self:_service := CategoryService():New()
+return self
+
+Method Get() Class CategoriesController
+    Local jData := Self:_service:GetData()
+
+    If !( jData['success'] ) 
+        oRest:SetStatusCode( jData['errorCode'] )
+        oRest:SetFault( jData['errorMessage'] )
+    EndIf
+
+    oRest:SetResponse(jData['payload'])
+return .T.
+
+Method Post() Class CategoriesController
+    Local jBody := JsonObject():New()
+    
+    jBody:FromJson( oRest:GetBodyRequest() )
+
+    Self:_service:Save( jBody )
+
+    oRest:setResponse(jBody:ToJson())
+return .T.

@@ -1,0 +1,39 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "totvs_tdsreplay_debug",
+			"request": "launch",
+			"name": "${1:%tds.package.tdsreplay.debug%}",
+			"cwb": "${workspaceFolder}",
+			"tdsReplayFile": "",
+			"ignoreFiles": false,
+			"password": "",
+			"includeSources": "*",
+			"excludeSources": ""
+		},
+		{
+			"type": "totvs_language_debug",
+			"request": "launch",
+			"name": "TOTVS Language Debug",
+			"program": "${command:AskForProgramName}",
+			"cwb": "${workspaceFolder}",
+			"smartclientBin": "D:\\TOTVS_2Easy\\Protheus\\Protheus\\bin\\smartclient\\smartclient.exe",
+			"isMultiSession": true,
+			"enableMultiThread": true,
+			"enableTableSync": true
+		}
+	],
+	"lastPrograms": [
+		{
+			"label": "u_xxx"
+		},
+		{
+			"label": "u_CheckZ01"
+		},
+		{
+			"label": "u_ch"
+		}
+	],
+	"lastProgramExecuted": "u_CheckZ01"
+}

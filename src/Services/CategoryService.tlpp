@@ -1,0 +1,58 @@
+#Include 'protheus.ch'
+
+Namespace ErpServ.Api.Services
+
+Using Namespace ErpServ.Api.Adapters
+
+Class CategoryService
+    Public Method New() Constructor
+    Public Method GetData()
+    Public Method Save( jData )
+EndClass
+
+Method New() Class CategoryService
+
+Return Self
+
+Method GetData() Class CategoryService
+    Local jResult := JsonObject():New()
+    Local oCategoryAdapter := CategoryAdapter():New()
+
+    oCategoryAdapter:setPage(1)
+    // setPageSize indica que nossa página terá no máximo 10 itens
+    oCategoryAdapter:setPageSize(10)
+    // SetOrderQuery indica a ordem definida por querystring
+    //oCategoryAdapter:SetOrderQuery('')
+    // setUrlFilter indica o filtro querystring recebido (pode se utilizar um filtro oData)
+    //oCategoryAdapter:SetUrlFilter(  )
+    // SetFields indica os campos que serão retornados via querystring
+    //oCategoryAdapter:SetFields( oWS:Fields )  
+    // Esse método irá processar as informações
+    oCategoryAdapter:GetPage()
+
+    jResult['success'] := oCategoryAdapter:lOk
+
+    If !jResult['success']
+        jResult['errorCode'] :=  oCategoryAdapter:GetCode()
+        jResult['errorMessage'] :=  oCategoryAdapter:GetMessage()
+    Else
+        jResult['payload'] := oCategoryAdapter:GetJSONResponse()
+    EndIf
+
+    oCategoryAdapter:DeActivate()
+    FreeObj( oCategoryAdapter )
+Return jResult
+
+Method Save( jData ) Class CategoryService
+    Local oModel := FWLoadModel('CATEGORY')
+    oModel:SetOperation(3)
+    oModel:Activate()
+
+    oModel:GetModel('MASTERZ01'):SetValue("Z01_DESC", jData['desc'])
+
+    If ( oModel:VldData() )
+        oModel:CommitData()
+    EndIf
+
+    oModel:DeActivate()
+Return

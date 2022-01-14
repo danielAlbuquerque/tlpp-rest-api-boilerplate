@@ -1,0 +1,16 @@
+#Include 'protheus.ch'
+
+Namespace ErpServ.Api.Filters
+
+/*/{Protheus.doc} AuthFilter
+Validate se o usuario pode acessar a API
+@type function
+@version 1.0
+@author daniel.albuquerque
+@since 11/01/2022
+@param cUser, character, usuario
+@param cPass, character, senha
+@return logical, continua
+/*/
+User Function AuthFilter( cUser As Character, cPass As Character ) As Logical
+Return cUser == 'test_user' .and. cPass == 'test_pass'

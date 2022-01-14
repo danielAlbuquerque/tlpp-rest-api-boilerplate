@@ -1,0 +1,9 @@
+#Include 'protheus.ch'
+
+Namespace ErpServ.Api.Filters
+
+User Function StartFilter() As Logical
+    Conout("Iniciando o ambiente")
+    RpcSetType(3)
+    RpcSetEnv("99", "01")
+return .T.

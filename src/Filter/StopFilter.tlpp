@@ -1,0 +1,8 @@
+#Include 'protheus.ch'
+
+Namespace ErpServ.Api.Filters
+
+User Function StopFilter() As Logical
+    Conout("Fechando o ambiente")
+    RpcClearEnv()
+return .T.

@@ -1,0 +1,41 @@
+#Include 'totvs.ch'
+
+#Define DEFAULT_VERB 'GET'
+
+Namespace ErpServ.Api.Adapters
+
+Class CategoryAdapter From FWAdapterBaseV2
+    Public Method New()
+    public Method GetPage()
+EndClass
+
+Method New() Class CategoryAdapter
+    _Super:New( DEFAULT_VERB, .T. )
+Return Self
+
+Method GetPage() Class CategoryAdapter
+    AddMapFields( self )
+    //Informa a Query a ser utilizada pela API
+    ::SetQuery( GetQuery() )
+    //Informa a clausula Where da Query
+    cWhere := " Z01_FILIAL = '"+ FWxFilial('Z01') +"' AND Z01.D_E_L_E_T_ = ' '"
+    ::SetWhere( cWhere )
+    //Informa a ordenação padrão a ser Utilizada pela Query
+    ::SetOrder( "Z01_DESC" )
+    //Executa a consulta, se retornar .T. tudo ocorreu conforme esperado
+    If ::Execute()
+        // Gera o arquivo Json com o retorno da Query
+        ::FillGetResponse()
+    EndIf
+Return 
+
+Static Function AddMapFields( oSelf )  
+    oSelf:AddMapFields( 'DESC', 'Z01_DESC' , .T., .F., { 'Z01_DESC', 'C', TamSX3( 'Z01_DESC' )[1], 0 } )
+Return
+
+Static Function GetQuery()
+    Local cQuery 
+    cQuery := " SELECT #QueryFields#"
+    cQuery +=   " FROM " + RetSqlName( 'Z01' ) + " Z01 "
+    cQuery += " WHERE #QueryWhere#"
+Return cQuery
